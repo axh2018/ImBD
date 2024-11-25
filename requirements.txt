@@ -1,0 +1,12 @@
+torch
+transformers
+peft
+scikit-learn
+huggingface_hub
+sentencepiece
+accelerate
+bitsandbytes
+datasets
+tensorboard
+matplotlib
+trl==0.12.1

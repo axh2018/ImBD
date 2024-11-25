@@ -1,0 +1,1 @@
+{"name": "DPO", "val_loss": 0.09104767316964474, "val_ROC_AUC": 0.7682666666666667, "val_PR_AUC": 0.7584007631439461, "val_crit_real_mean": -15.268226356506348, "val_crit_real_std": 2.9652133877076663, "val_crit_sampled_mean": -12.35967396736145, "val_crit_sampled_std": 2.5738836200764292}
