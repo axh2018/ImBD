@@ -1,4 +1,4 @@
-export HF_ENDPOINT=https://hf-mirror.com # download from mirror
+# export HF_ENDPOINT=https://hf-mirror.com # download from mirror
 HF_TOKEN= # your huggingface download token
 
 # For eval other models
