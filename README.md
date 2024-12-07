@@ -19,7 +19,7 @@
 | <img src="https://img.icons8.com/color/48/000000/internet.png" alt="Platform" width="15" height="15" style="vertical-align: middle;"/><a href="https://machine-text-detection.github.io/ImBD/"><b>Website</b></a> | <img src="https://img.icons8.com/?size=100&id=13580&format=png&color=000000" alt="Paper" width="15" height="15" style="vertical-align: middle;"/> <a href=""><b>Paper</b></a> | <img src="https://img.icons8.com/?size=100&id=1475&format=png&color=90CAF9" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://github.com/Jiaqi-Chen-00/ImBD/tree/main/data"><b>Data</b></a> |
 </p>
 
-Detecting machine-revised text remains a challenging task as it often involves subtle style changes embedded within human-originated content. The ImBD framework introduces a novel approach to tackle this problem, leveraging style preference optimization (SPO) and Style-CPC to effectively capture machine-style phrasing. Our method achieves state-of-the-art performance in detecting revisions by open-source and proprietary LLMs like GPT-3.5 and GPT-4o, demonstrating significant efficiency with minimal training data.
+Detecting **machine-revised text** remains a challenging task as it often involves subtle style changes embedded within human-originated content. The ImBD framework introduces a novel approach to tackle this problem, leveraging **style preference optimization (SPO)** and **Style-CPC** to effectively capture machine-style phrasing. Our method achieves state-of-the-art performance in detecting revisions by open-source and proprietary LLMs like GPT-3.5 and GPT-4o, demonstrating significant efficiency with minimal training data.
 
 We are excited to share our code and data to support further exploration in detecting machine-revised text. We welcome your feedback and invite collaborations to advance this field together!
 
@@ -97,7 +97,7 @@ python ablation_exp/train_gpt_neo_orpo.py
 # Eval
 bash scripts/eval_ablation.sh
 ```
-## Regenerate Data
+## 📁 Regenerate Data
 ### For Opensource Model
 Download text-generation models  
 **Notes:** You need to first apply for corresponding model download permission and fill the ```HF_TOKEN=``` in the download script, then remove the comments if you need to regenerate the datasets
@@ -111,7 +111,7 @@ bash scripts/build_data.sh
 ### For GPTs
 We provide related codes in `tools/data_builder_gpts`. Make sure you fill the api_key and set the right path to save results.
 
-## TODO
+## ✅ TODO
 
 - [ ] Optimize the preservation of the trained model. 
 - [ ] Inference code for detection. 
