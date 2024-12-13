@@ -1,7 +1,7 @@
 <h1 align="center">Imitate Before Detect: Aligning Machine Stylistic Preference for Machine-Revised Text Detection</h1>
 
 <p align="center">
-   <a href="https://scholar.google.com/citations?user=Au_y5poAAAAJ">Jiaqi Chen</a><sup>*</sup>, <a href="https://xyzhu1225.github.io/">Xiaoye Zhu</a><sup>*</sup>, <a href="https://leolty.github.io/">Tianyang Liu</a><sup>*</sup>, Ying Chen, <a href="https://xinhuichen-02.github.io/">Xinhui Chen</a>,<br> <a href="https://scholar.google.com/citations?user=koA9QbMAAAAJ">Yiwen Yuan</a>, <a href="https://cooperleong00.github.io/">Chak Tou Leong</a>, <a href="https://zcli-charlie.github.io/">Zuchao Li</a>, Tang Long, <a href="https://yusalei.github.io/">Lei Zhang</a>, <a href="https://scholar.google.com/citations?user=281EWzQAAAAJ">Chenyu Yan</a>, <br><a href="https://scholar.google.com/citations?user=mliv6KEAAAAJ">Guanghao Mei</a>, <a href="https://scholar.google.com/citations?user=epTfECgAAAAJ">Jie Zhang</a><sup>†</sup>, <a href="https://scholar.google.com/citations?user=BLKHwNwAAAAJ">Lefei Zhang</a><sup>†</sup>
+   <a href="https://scholar.google.com/citations?user=Au_y5poAAAAJ">Jiaqi Chen</a><sup>*</sup>, <a href="https://xyzhu1225.github.io/">Xiaoye Zhu</a><sup>*</sup>, <a href="https://leolty.github.io/">Tianyang Liu</a><sup>*</sup>, Ying Chen, <a href="https://xinhuichen-02.github.io/">Xinhui Chen</a>,<br> <a href="https://scholar.google.com/citations?user=koA9QbMAAAAJ">Yiwen Yuan</a>, <a href="https://cooperleong00.github.io/">Chak Tou Leong</a>, <a href="https://zcli-charlie.github.io/">Zuchao Li</a><sup>†</sup>, Tang Long, <a href="https://yusalei.github.io/">Lei Zhang</a>, <br><a href="https://scholar.google.com/citations?user=281EWzQAAAAJ">Chenyu Yan</a>, <a href="https://scholar.google.com/citations?user=mliv6KEAAAAJ">Guanghao Mei</a>, <a href="https://scholar.google.com/citations?user=epTfECgAAAAJ">Jie Zhang</a><sup>†</sup>, <a href="https://scholar.google.com/citations?user=BLKHwNwAAAAJ">Lefei Zhang</a><sup>†</sup>
 </p>
 
 <p align="center">
@@ -27,21 +27,37 @@ We are excited to share our code and data to support further exploration in dete
 ![Main Figure](https://machine-text-detection.github.io/ImBD/static/images/method.png)
 
 ## 🔥 News
-
+- **[2024, Dec 9]** Our paper has been accepted by AAAI 25.
 - **[2024, Dec 7]** We've released our [Website](https://machine-text-detection.github.io/ImBD).
 
 ## 🛠️ Setup
 Environment setup
-```
+```bash
 conda create -n ImBD python=3.10
 conda activate ImBD
 pip install -r requirements.txt
 ```
 Download necessary models to ```./models ```
-```
+```bash
 bash scripts/download_model.sh
 ```
-## 🚀 Reproduce Results
+## 🤖 Local Demo
+We provide a script to download our checkpoint from hugging-face. 
+```bash
+bash scripts/download_checkpoint.sh
+```
+You can also fineturn the model from scratch according to our [Reproduce Results](#reproduce) part.
+
+Next, run the following script to launch the demo:
+```bash
+bash scripts/run_inference.sh
+```
+There are two args in this script:  
+`--task` could be one of `["polish", "generate", "rewrite", "expand", "all"]` . `all` denotes `all-in-one` combining the above four tasks, whose accuracy may not be as high as for a single task  
+`--detail` could be `True` or `False`, indicating whether to show the results of the four tasks.
+
+
+## 🚀 Reproduce Results <a id="reproduce"></a>
 ### Reproduce Our Multi-domain Results
 Tuning the model with SPO
 ```bash
@@ -113,5 +129,6 @@ We provide related codes in `tools/data_builder_gpts`. Make sure you fill the ap
 
 ## ✅ TODO
 
+- [x] Inference code for detection. 
 - [ ] Optimize the preservation of the trained model. 
-- [ ] Inference code for detection. 
+
