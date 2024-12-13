@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-| <img src="https://img.icons8.com/color/48/000000/internet.png" alt="Platform" width="15" height="15" style="vertical-align: middle;"/><a href="https://machine-text-detection.github.io/ImBD/"><b>Website</b></a> | <img src="https://img.icons8.com/?size=100&id=13580&format=png&color=000000" alt="Paper" width="15" height="15" style="vertical-align: middle;"/> <a href=""><b>Paper</b></a> | <img src="https://img.icons8.com/?size=100&id=1475&format=png&color=90CAF9" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://github.com/Jiaqi-Chen-00/ImBD/tree/main/data"><b>Data</b></a> |  <img src="https://img.icons8.com/?size=100&id=sop9ROXku5bb&format=png&color=000000" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://huggingface.co/xyzhu1225/ImBD/tree/main"><b>Model</b></a>
+| <img src="https://img.icons8.com/color/48/000000/internet.png" alt="Platform" width="15" height="15" style="vertical-align: middle;"/><a href="https://machine-text-detection.github.io/ImBD/"><b>Website</b></a> | <img src="https://img.icons8.com/?size=100&id=13580&format=png&color=000000" alt="Paper" width="15" height="15" style="vertical-align: middle;"/> <a href=""><b>Paper</b></a> | <img src="https://img.icons8.com/?size=100&id=1475&format=png&color=90CAF9" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://github.com/Jiaqi-Chen-00/ImBD/tree/main/data"><b>Data</b></a> |  <img src="https://img.icons8.com/?size=100&id=sop9ROXku5bb&format=png&color=000000" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://huggingface.co/xyzhu1225/ImBD/tree/main"><b>Model</b></a> |
 </p>
 
 Detecting **machine-revised text** remains a challenging task as it often involves subtle style changes embedded within human-originated content. The ImBD framework introduces a novel approach to tackle this problem, leveraging **style preference optimization (SPO)** and **Style-CPC** to effectively capture machine-style phrasing. Our method achieves state-of-the-art performance in detecting revisions by open-source and proprietary LLMs like GPT-3.5 and GPT-4o, demonstrating significant efficiency with minimal training data.
@@ -47,7 +47,7 @@ We provide a script to download our checkpoint from hugging-face.
 ```bash
 bash scripts/download_checkpoint.sh
 ```
-You can also fineturn the model from scratch according to our [Reproduce Results](#reproduce) part.
+You can also finetune the model from scratch according to our [Reproduce Results](#reproduce) part.
 
 Next, run the following script to launch the demo:
 ```bash
