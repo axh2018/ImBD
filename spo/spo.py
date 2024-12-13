@@ -136,7 +136,7 @@ class ComputeScore(nn.Module):
         Save the model's state_dict to the specified directory.
         """
         os.makedirs(save_directory, exist_ok=True)
-        torch.save(self.state_dict(), os.path.join(save_directory, "ours-finetuned.pth"))
+        torch.save(self.state_dict(), os.path.join(save_directory, "model.bin"))
 
     def from_pretrained(self, load_directory):
         """
@@ -145,7 +145,7 @@ class ComputeScore(nn.Module):
         if not os.path.exists(load_directory):
             raise ValueError(f"Directory {load_directory} does not exist.")
 
-        self.load_state_dict(torch.load(os.path.join(load_directory, "ours-finetuned.pth"), map_location=self.device))
+        self.load_state_dict(torch.load(os.path.join(load_directory, "model.bin"), map_location=self.device))
 
     def get_SPO_input(self, tokenized=None ,text=[""], labels=[""], training_module=False):
         if training_module:
