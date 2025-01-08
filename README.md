@@ -44,11 +44,12 @@ Download necessary models to ```./models ```
 bash scripts/download_model.sh
 ```
 ## 🤖 Local Demo
-We provide a script to download our checkpoint from hugging-face. 
+**[GPU memories needed for inference: ~11G]**  
+We provide a script to download our inference checkpoint from huggingface. (Make sure you have download the above model since our inference checkpoint only contains lora weights) 
 ```bash
-bash scripts/download_checkpoint.sh
+bash scripts/download_inference_checkpoint.sh
 ```
-You can also finetune the model from scratch according to our [Reproduce Results](#reproduce) part.
+You can also finetune and save the model from scratch according to our [Reproduce Results](#reproduce) part.
 
 Next, run the following script to launch the demo:
 ```bash
@@ -61,9 +62,14 @@ There are two args in this script:
 
 ## 🚀 Reproduce Results <a id="reproduce"></a>
 ### Reproduce Our Multi-domain Results
-Tuning the model with SPO
+**[GPU memories needed for training and evaluation: ~40G]**  
+Tuning the gpt-neo-2.7b model with SPO (recommend)
 ```bash
 bash scripts/train_spo.sh
+```
+Or download our full checkpoint without tuning again.
+```bash
+bash scripts/download_full_checkpoint.sh
 ```
 Eval tuned model on our multi-domain datasets
 ```bash
@@ -133,4 +139,6 @@ We provide related codes in `tools/data_builder_gpts`. Make sure you fill the ap
 
 - [x] Inference code for detection. 
 - [ ] Optimize the preservation of the trained model. 
+    - [x] LoRA checkpoint for inference (without loading two full model checkpoint)
+- [ ] Optimize GPU memory usage for evaluation scripts.
 

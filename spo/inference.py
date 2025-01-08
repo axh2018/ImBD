@@ -1,12 +1,13 @@
-import random
-
 import numpy as np
 import torch
 import os
 import glob
 import argparse
 import json
-from spo import ComputeScore, get_sampling_discrepancy_analytic
+from spo import get_sampling_discrepancy_analytic
+from transformers import AutoTokenizer
+from peft import AutoPeftModelForCausalLM
+import time
 
 # estimate the probability according to the distribution of our test results on GPT-3.5 and GPT-4
 class ProbEstimator:
@@ -46,19 +47,28 @@ class ProbEstimator:
 
 # run interactive local inference
 def run(args):
-    model = ComputeScore("gpt-neo-2.7B", "gpt-neo-2.7B", cache_dir=args.cache_dir)
-    print(f"Loading ckpt from {args.from_pretrained}...")
-    model.from_pretrained(args.from_pretrained)
-    # load model
-    scoring_tokenizer = model.scoring_tokenizer
-    scoring_model = model.scoring_model
+    
+    # Generate the inference checkpoint from trained model
+    # from spo import ComputeScore
+    # model = ComputeScore("gpt-neo-2.7B", "gpt-neo-2.7B", cache_dir=args.cache_dir)
+    # model.from_pretrained("ckpt/ai_detection_polish_500_spo_lr_0.0001_beta_0.05_a_1")
+    # scoring_model = model.scoring_model
+    # scoring_tokenizer = model.scoring_tokenizer
+    # scoring_model.save_pretrained('models/ImBD-inference')
+    # scoring_tokenizer.save_pretrained('models/ImBD-inference')
+    
+    print('Loading model')
+    start_time = time.time()
+    scoring_model = AutoPeftModelForCausalLM.from_pretrained('models/ImBD-inference') # Make sure you have downloaded the gpt-neo-2.7b and place it at `models` folder.
+    scoring_tokenizer = AutoTokenizer.from_pretrained('models/ImBD-inference')
+    scoring_tokenizer.pad_token = scoring_tokenizer.eos_token
+    scoring_model.to(args.device)
     scoring_model.eval()
-    reference_tokenizer = model.reference_tokenizer
-    reference_model = model.reference_model
-    reference_model.eval()
-    # evaluate criterion
+    print(f'Done. ({time.time()-start_time:.2f}s)')
+    
     criterion_fn = get_sampling_discrepancy_analytic
     prob_estimator = ProbEstimator(args)
+    
     # input text
     print('Local demo for ImBD, where the longer text has more reliable result.')
     print('To view detail results for all tasks, set `--detail` to True.')
