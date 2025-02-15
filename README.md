@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-| <img src="https://img.icons8.com/color/48/000000/internet.png" alt="Website" width="15" height="15" style="vertical-align: middle;"/><a href="https://machine-text-detection.github.io/ImBD/"><b>Website</b></a> | <img src="https://img.icons8.com/?size=100&id=13580&format=png&color=000000" alt="Paper" width="15" height="15" style="vertical-align: middle;"/> <a href="https://arxiv.org/abs/2412.10432"><b>Paper</b></a> | <img src="https://img.icons8.com/?size=100&id=1475&format=png&color=90CAF9" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://github.com/Jiaqi-Chen-00/ImBD/tree/main/data"><b>Data</b></a> |  <img src="https://img.icons8.com/?size=100&id=sop9ROXku5bb&format=png&color=000000" alt="Model" width="15" height="15" style="vertical-align: middle;"/> <a href="https://huggingface.co/xyzhu1225/ImBD/tree/main"><b>Model</b></a> | <img src="https://img.icons8.com/?size=100&id=100414&format=png&color=90CAF9" alt="Demo" width="15" height="15" style="vertical-align: middle;"/> <a href="https://ai-detector.fenz.ai/ai-detector"><b>Demo</b></a> |
+| <img src="https://img.icons8.com/color/48/000000/internet.png" alt="Website" width="15" height="15" style="vertical-align: middle;"/><a href="https://machine-text-detection.github.io/ImBD/"><b>Website</b></a> | <img src="https://img.icons8.com/?size=100&id=13580&format=png&color=000000" alt="Paper" width="15" height="15" style="vertical-align: middle;"/> <a href="https://arxiv.org/abs/2412.10432"><b>Paper</b></a> | <img src="https://img.icons8.com/?size=100&id=1475&format=png&color=90CAF9" alt="Data" width="15" height="15" style="vertical-align: middle;"/> <a href="https://github.com/Jiaqi-Chen-00/ImBD/tree/main/data"><b>Data</b></a> |  <img src="https://img.icons8.com/?size=100&id=sop9ROXku5bb&format=png&color=000000" alt="Model" width="15" height="15" style="vertical-align: middle;"/> <a href="https://huggingface.co/xyzhu1225/ImBD-inference"><b>Model</b></a> | <img src="https://img.icons8.com/?size=100&id=100414&format=png&color=90CAF9" alt="Demo" width="15" height="15" style="vertical-align: middle;"/> <a href="https://ai-detector.fenz.ai/ai-detector"><b>Demo</b></a> |
 </p>
 
 Detecting **machine-revised text** remains a challenging task as it often involves subtle style changes embedded within human-originated content. The ImBD framework introduces a novel approach to tackle this problem, leveraging **style preference optimization (SPO)** and **Style-CPC** to effectively capture machine-style phrasing. Our method achieves state-of-the-art performance in detecting revisions by open-source and proprietary LLMs like GPT-3.5 and GPT-4o, demonstrating significant efficiency with minimal training data.
@@ -28,7 +28,7 @@ We are excited to share our code and data to support further exploration in dete
 
 ## 🔥 News
 - **[2024, Dec 16]** Our online [demo](https://ai-detector.fenz.ai/ai-detector) is available on hugging-face now!
-- **[2024, Dec 13]** Our [model](https://huggingface.co/xyzhu1225/ImBD/tree/main) and local inference code are available!
+- **[2024, Dec 13]** Our [model](https://huggingface.co/xyzhu1225/ImBD-inference) and local inference code are available!
 - **[2024, Dec 9]** 🎉🎉 Our paper has been accepted by AAAI 25! 
 - **[2024, Dec 7]** We've released our [website](https://machine-text-detection.github.io/ImBD)!
 
@@ -61,6 +61,13 @@ There are two args in this script:
 
 
 ## 🚀 Reproduce Results <a id="reproduce"></a>
+### Fast evaluation
+**[GPU memories needed for fast evaluation: ~11G]**  
+```bash
+bash scripts/eval_all.sh
+```
+>The results will be saved at `./evaluation` folder. Make sure you have downloaded the inference checkpoint through `download_inference_checkpoint.sh`
+
 ### Reproduce Our Multi-domain Results
 **[GPU memories needed for training and evaluation: ~40G]**  
 Tuning the gpt-neo-2.7b model with SPO (recommend)
@@ -139,6 +146,6 @@ We provide related codes in `tools/data_builder_gpts`. Make sure you fill the ap
 
 - [x] Inference code for detection. 
 - [ ] Optimize the preservation of the trained model. 
-    - [x] LoRA checkpoint for inference (without loading two full model checkpoint)
-- [ ] Optimize GPU memory usage for evaluation scripts.
+    - [x] LoRA checkpoint for inference and evaluation (without loading two full model checkpoint)
+- [x] Optimize GPU memory usage for evaluation scripts.
 
