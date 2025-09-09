@@ -45,21 +45,11 @@ class ProbEstimator:
             probs.append(cnt_fake / (cnt_real + cnt_fake))
         return probs
 
-# run interactive local inference
+# run inference (supports both non-interactive and interactive mode)
 def run(args):
-    
-    # Generate the inference checkpoint from trained model
-    # from spo import ComputeScore
-    # model = ComputeScore("gpt-neo-2.7B", "gpt-neo-2.7B", cache_dir=args.cache_dir)
-    # model.from_pretrained("ckpt/ai_detection_polish_500_spo_lr_0.0001_beta_0.05_a_1")
-    # scoring_model = model.scoring_model
-    # scoring_tokenizer = model.scoring_tokenizer
-    # scoring_model.save_pretrained('models/ImBD-inference')
-    # scoring_tokenizer.save_pretrained('models/ImBD-inference')
-    
     print('Loading model')
     start_time = time.time()
-    scoring_model = AutoPeftModelForCausalLM.from_pretrained('models/ImBD-inference') # Make sure you have downloaded the gpt-neo-2.7b and place it at `models` folder.
+    scoring_model = AutoPeftModelForCausalLM.from_pretrained('models/ImBD-inference')  # Make sure you have downloaded the gpt-neo-2.7b and place it at `models` folder.
     scoring_tokenizer = AutoTokenizer.from_pretrained('models/ImBD-inference')
     scoring_tokenizer.pad_token = scoring_tokenizer.eos_token
     scoring_model.to(args.device)
@@ -69,7 +59,29 @@ def run(args):
     criterion_fn = get_sampling_discrepancy_analytic
     prob_estimator = ProbEstimator(args)
     
-    # input text
+    # Non-interactive mode: process text from --text argument
+    if args.text is not None:
+        text = args.text
+        # Evaluate text
+        tokenized = scoring_tokenizer(text, truncation=True, return_tensors="pt", padding=True, return_token_type_ids=False).to(args.device)
+        labels = tokenized.input_ids[:, 1:]
+        with torch.no_grad():
+            logits_score = scoring_model(** tokenized).logits[:, :-1]
+            logits_ref = logits_score
+            crit, _ = criterion_fn(logits_ref, logits_score, labels)
+        # Estimate probability
+        crit = crit.cpu().numpy().item()
+        if args.detail:
+            probs = prob_estimator.crit_to_prob_detail(crit)
+            print(f'ImBD criterion is {crit:.4f}, suggesting that the text has a probability of', sep=" ")
+            for task, prob in zip(prob_estimator.tasks, probs):
+                print(f'{prob * 100:.0f}% to be machine-{task},', sep=" ")
+        else:
+            prob = prob_estimator.crit_to_prob(crit)
+            print(f'ImBD criterion is {crit:.4f}, suggesting that the text has a probability of {prob * 100:.0f}% to be machine-{args.task}.')
+        return  # Exit after processing
+    
+    # Interactive mode (original logic)
     print('Local demo for ImBD, where the longer text has more reliable result.')
     print('To view detail results for all tasks, set `--detail` to True.')
     print('To view all-in-one results, set `--task` to `all`. (Not accurate enough)')
@@ -85,20 +97,20 @@ def run(args):
         text = "\n".join(lines)
         if len(text) == 0:
             break
-        # evaluate text
+        # Evaluate text
         tokenized = scoring_tokenizer(text, truncation=True, return_tensors="pt", padding=True, return_token_type_ids=False).to(args.device)
         labels = tokenized.input_ids[:, 1:]
         with torch.no_grad():
             logits_score = scoring_model(**tokenized).logits[:, :-1]
             logits_ref = logits_score
             crit, _ = criterion_fn(logits_ref, logits_score, labels)
-        # estimate the probability of machine generated text
+        # Estimate probability
         crit = crit.cpu().numpy().item()
         if args.detail:
             probs = prob_estimator.crit_to_prob_detail(crit)
-            print(f'ImBD criterion is {crit:.4f}, suggesting that the text has a probability of',sep=" ")
+            print(f'ImBD criterion is {crit:.4f}, suggesting that the text has a probability of', sep=" ")
             for task, prob in zip(prob_estimator.tasks, probs):
-                print(f'{prob * 100:.0f}% to be machine-{task},',sep=" ")
+                print(f'{prob * 100:.0f}% to be machine-{task},', sep=" ")
         else:
             prob = prob_estimator.crit_to_prob(crit)
             print(f'ImBD criterion is {crit:.4f}, suggesting that the text has a probability of {prob * 100:.0f}% to be machine-{args.task}.')
@@ -112,6 +124,8 @@ if __name__ == '__main__':
     parser.add_argument('--task', type=str, default="generate", choices=["polish", "generate", "rewrite", "expand", "all"])
     parser.add_argument('--detail', type=bool, default=False)
     parser.add_argument('--from_pretrained', type=str, default='./ckpt/ai_detection_polish_500_spo_lr_0.0001_beta_0.05_a_1')
+    # Add non-interactive text input argument
+    parser.add_argument('--text', type=str, default=None, help="Input text for non-interactive mode (bypasses interactive prompt)")
     args = parser.parse_args()
 
     run(args)
